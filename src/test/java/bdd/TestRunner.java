@@ -1,4 +1,4 @@
-package bookerapi;
+package bdd;
 
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
@@ -19,7 +19,7 @@ class BookerTest {
 
     @Test
     void testParallel() {
-        Results results = Runner.path("classpath:bookerapi")
+        Results results = Runner.path("classpath:bdd")
                 .outputCucumberJson(true)
                 .parallel(5);
         generateReport(results.getReportDir());
@@ -30,7 +30,7 @@ class BookerTest {
         Collection<File> jsonFiles = FileUtils.listFiles(new File(karateOutputPath), new String[] { "json" }, true);
         List<String> jsonPaths = new ArrayList<>(jsonFiles.size());
         jsonFiles.forEach(file -> jsonPaths.add(file.getAbsolutePath()));
-        Configuration config = new Configuration(new File("target"), "BookerAPI");
+        Configuration config = new Configuration(new File("target"), "KarateTest");
         ReportBuilder reportBuilder = new ReportBuilder(jsonPaths, config);
         reportBuilder.generateReports();
     }

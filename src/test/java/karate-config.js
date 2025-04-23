@@ -2,31 +2,37 @@ function fn() {
   var env = karate.env; // get system property 'karate.env'
   
   if (!env) {
-    env = "qa";
+    env = "dev";
   }
 
-  karate.log("karate.env system property was:", env);
+  karate.log("karate.env la propiedad en el sistema es:", env);
 
   var config = {
-    baseAuthUrl: "https://www.devurl.com/auth",
-    baseBookingUrl: "https://www.devurl.com/booking",
-    basePingUrl: "https://www.devurl.com/ping",
-    tokenUsername: "DEVUSER",
-    tokenPassword: "12345",
+    baseUrl: "",
+    pathUser: "",
+    dataJson: "",
+    dataCsv: "",
+    schemaUser: karate.read('classpath:bdd/resources/responses/json/schemaUser.json'),
   };
 
-  if (env == "qa") {
-    config.baseAuthUrl = "https://restful-booker.herokuapp.com/auth",
-    config.baseBookingUrl = "https://restful-booker.herokuapp.com/booking",
-    config.basePingUrl = "https://restful-booker.herokuapp.com/ping",
-    config.tokenUsername = "admin",
-    config.tokenPassword = "password123"
+  if (env == "dev") {
+    config.baseUrl = "https://reqres.in/api",
+    config.pathUser = "users/1"
+    config.dataJson = karate.read('classpath:bdd/resources/responses/json/dataUserDev.json'),
+    config.dataCsv = karate.read('classpath:bdd/resources/responses/csv/dataUserDev.csv')
+
+  } else if (env == "qa") {
+    config.baseUrl = "https://reqres.in/api",
+    config.pathUser = "users/2",
+    config.dataJson = karate.read('classpath:bdd/resources/responses/json/dataUserCert.json'),
+    config.dataCsv = karate.read('classpath:bdd/resources/responses/csv/dataUserCert.csv')
+
   } else if (env == "prod") {
-    config.baseAuthUrl = "https://www.produrl.com/auth",
-    config.baseBookingUrl = "https://www.produrl.com/booking",
-    config.basePingUrl = "https://www.produrl.com/ping",
-    config.tokenUsername = "PRODUSER",
-    config.tokenPassword = "12345"
+    config.baseUrl = "https://reqres.in/api",
+    config.pathUser = "users/3",
+    config.dataJson = karate.read('classpath:bdd/resources/responses/json/dataUserProd.json'),
+    config.dataCsv = karate.read('classpath:bdd/resources/responses/csv/dataUserProd.csv')
+    
   }
 
   karate.configure('connectTimeout', 50000);
